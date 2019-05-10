@@ -11,7 +11,6 @@ const http = require('http');
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -36,25 +35,13 @@ function normalizePort(val) {
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+const server = http.createServer(app).listen(port);
 
 describe('GET /users', () => {
-    beforeEach(() => {
-
-        /**
-         * Listen on provided port, on all network interfaces.
-         */
-
-        server.listen(port);
-    });
-    afterEach(() => {
-
-        /**
-         * Close the listener.
-         */
-
-        server.close();
-    });
     test('It should return http status 200', () => {
         request.get('http://localhost:3000/api/users', (requestError, requestResponse, requestBody) => {
             expect(requestResponse.statusCode).toBe(200);
@@ -73,22 +60,6 @@ describe('GET /users', () => {
 });
 
 describe('GET /users/:username/details', () => {
-    beforeEach(() => {
-
-        /**
-         * Listen on provided port, on all network interfaces.
-         */
-
-        server.listen(port);
-    });
-    afterEach(() => {
-
-        /**
-         * Close the listener.
-         */
-
-        server.close();
-    });
     test('It should return http status 200', () => {
         request.get('http://localhost:3000/api/users/halkliff/details', (requestError, requestResponse, requestBody) => {
             expect(requestResponse.statusCode).toBe(200);
@@ -107,22 +78,6 @@ describe('GET /users/:username/details', () => {
 });
 
 describe('GET /users/:username/repos', () => {
-    beforeEach(() => {
-
-        /**
-         * Listen on provided port, on all network interfaces.
-         */
-
-        server.listen(port);
-    });
-    afterEach(() => {
-
-        /**
-         * Close the listener.
-         */
-
-        server.close();
-    });
     test('It should return http status 200', () => {
         request.get('http://localhost:3000/api/users/halkliff/repos', (requestError, requestResponse, requestBody) => {
             expect(requestResponse.statusCode).toBe(200);
@@ -139,3 +94,5 @@ describe('GET /users/:username/repos', () => {
         });
     });
 });
+
+server.close();

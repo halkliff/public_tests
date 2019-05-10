@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node www/serve.js",
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "coverage": "jest --coverage",
     "doc": "jsdoc .",
     "lint": "eslint \"./**/*.js\""
