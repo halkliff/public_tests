@@ -3,7 +3,6 @@ const router = express.Router();
 const isNullOrUndefined = require('../utils/isNullOrUndefined');
 const request = require('request');
 
-/* GET users listing. */
 router.get('/', function (req, res) {
         let since = req.query.since;
         const opts = {};
