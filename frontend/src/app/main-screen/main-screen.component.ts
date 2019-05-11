@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MainScreenService, User} from "./service/main-screen.service";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'sp-main-screen',
@@ -30,8 +30,8 @@ export class MainScreenComponent implements OnInit {
 
   previousPage() {
     this.service.getUsers(this.currentUser - 30).toPromise().then(
-      (response: HttpResponse<any>) => {
-        this.userList = response.body.data;
+      (response) => {
+        this.userList = response.data;
         this.currentUser = this.userList[this.userList.length - 1].id;
       },
       (err: HttpErrorResponse) => {
@@ -44,8 +44,8 @@ export class MainScreenComponent implements OnInit {
   nextPage() {
 
     this.service.getUsers(this.currentUser + 30).toPromise().then(
-      (response: HttpResponse<any>) => {
-        this.userList = response.body.data;
+      (response) => {
+        this.userList = response.data;
         this.currentUser = this.userList[this.userList.length - 1].id;
       },
       (err: HttpErrorResponse) => {

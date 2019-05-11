@@ -35,4 +35,8 @@ export class MainScreenService {
     return this.http.get(`http://localhost:3000/api/users?since=${since}`)
   }
 
+  getUserDetails(username: string): Observable<any> {
+    return this.http.get(`http://localhost:3000/api/users/${username}/details`);
+  }
+
 }

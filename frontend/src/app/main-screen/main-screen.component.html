@@ -4,8 +4,16 @@
   Github Users List
 </header>
 <main>
-
   <div class="table-container">
+    <div style="display: flex; width: 100%; margin-bottom: 1rem; justify-content: center">
+      <div (click)="currentUser > 30 ? previousPage() : $event.preventDefault()" [class.active]="true" class="pag-btn">
+        Previous
+      </div>
+      <div (click)="!(userList.length < 30) ? nextPage(): $event.preventDefault()" [class.active]="true"
+           class="pag-btn">Next
+      </div>
+    </div>
+    <br>
     <table>
       <tr>
         <th style="flex: .25">User ID</th>
