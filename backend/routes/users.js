@@ -28,21 +28,32 @@ router.get('/', function (req, res) {
                 headers: {'User-Agent': 'SANDP-Test-App/0.0.1'}
             },
             (reqError, reqResponse, reqBody) => {
-                if (reqResponse.statusCode === 200) {
-                    res.status(200).jsonp(
-                        {
-                            success: true,
-                            data: JSON.parse(reqBody)
-                        }
-                    );
+              if (reqError) {
+
+                res.status(500).jsonp(
+                  {
+                    success: false,
+                    error: JSON.parse(reqError)
+                  }
+                );
 
                 } else {
-                    res.status(reqResponse.statusCode).jsonp(
-                        {
-                            success: false,
-                            error: reqBody
-                        }
-                    );
+                if (reqResponse.statusCode === 200) {
+                  res.status(200).jsonp(
+                    {
+                      success: true,
+                      data: JSON.parse(reqBody)
+                    }
+                  );
+
+                } else {
+                  res.status(reqResponse.statusCode).jsonp(
+                    {
+                      success: false,
+                      error: reqBody
+                    }
+                  );
+                }
                 }
             }
         );
