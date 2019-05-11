@@ -1,0 +1,32 @@
+<header>
+  <img alt="Github Logo" class="github-logo"
+       src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+  <a routerLink="/" style="color: white; margin-right: .25rem">Github Users List /</a> User {{user.login}}
+</header>
+<main style="display: block">
+
+  <p><b>UserID:</b> {{user.id}}</p><br>
+  <p><b>Username: </b> {{user.login}}</p><br><br>
+  <p><b>User link: </b> {{user.html_url}}</p><br>
+
+  <div class="table-container">
+    <table>
+      <tr>
+        <th style="flex: .25">Repository ID</th>
+        <th>Repository Name</th>
+        <th>Repository URL</th>
+      </tr>
+      <tr *ngFor="let repo of userRepos">
+        <td style="flex: .25">{{repo.id}}</td>
+        <td>{{repo.full_name}}</td>
+        <td><a href="{{repo.html_url}}" target="_blank">{{repo.html_url}}</a></td>
+      </tr>
+    </table>
+  </div>
+
+</main>
+<footer>
+  <a href="https://github.com/halkliff" style="float: right">
+    Werberth Lins, C 2019
+  </a>
+</footer>
