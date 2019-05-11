@@ -214,7 +214,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header>\n  <img alt=\"Github Logo\" class=\"github-logo\"\n       src=\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\">\n  Github Users List\n</header>\n<main>\n  <div class=\"table-container\">\n    <div style=\"display: flex; width: 100%; margin-bottom: 1rem; justify-content: center\">\n      <div (click)=\"currentUser > 30 ? previousPage() : $event.preventDefault()\" [class.active]=\"true\" class=\"pag-btn\">\n        Previous\n      </div>\n      <div (click)=\"!(userList.length < 30) ? nextPage(): $event.preventDefault()\" [class.active]=\"true\"\n           class=\"pag-btn\">Next\n      </div>\n    </div>\n    <br>\n    <table>\n      <tr>\n        <th style=\"flex: .25\">User ID</th>\n        <th>Login</th>\n        <th></th>\n      </tr>\n      <tr *ngFor=\"let user of userList\">\n        <td style=\"flex: .25\">{{user.id}}</td>\n        <td><a href=\"{{user.html_url}}\" target=\"_blank\">{{user.login}}</a></td>\n        <td><a routerLink=\"/user/{{user.login}}/details\" style=\"font-weight: bolder\">More Info</a></td>\n      </tr>\n    </table>\n  </div>\n\n</main>\n<footer>\n  <a href=\"https://github.com/halkliff\" style=\"float: right\">\n    Werberth Lins, C 2019\n  </a>\n</footer>\n"
+module.exports = "<header>\n  <img alt=\"Github Logo\" class=\"github-logo\"\n       src=\"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\">\n  Github Users List\n</header>\n<main>\n  <div class=\"table-container\">\n    <div style=\"display: flex; width: 100%; margin-bottom: 1rem; justify-content: center\">\n      <div (click)=\"currentUser > 30 ? previousPage() : $event.preventDefault()\" class=\"pag-btn active\">\n        Previous\n      </div>\n      <div (click)=\"!(userList.length < 30) ? nextPage(): $event.preventDefault()\"\n           class=\"pag-btn active\">Next\n      </div>\n    </div>\n    <br>\n    <table>\n      <tr>\n        <th style=\"flex: .25\">User ID</th>\n        <th>Login</th>\n        <th></th>\n      </tr>\n      <tr *ngFor=\"let user of userList\">\n        <td style=\"flex: .25\">{{user.id}}</td>\n        <td><a href=\"{{user.html_url}}\" target=\"_blank\">{{user.login}}</a></td>\n        <td><a routerLink=\"/user/{{user.login}}/details\" style=\"font-weight: bolder\">More Info</a></td>\n      </tr>\n    </table>\n  </div>\n\n</main>\n<footer>\n  <a href=\"https://github.com/halkliff\" style=\"float: right\">\n    Werberth Lins, C 2019\n  </a>\n</footer>\n"
 
 /***/ }),
 
@@ -262,7 +262,7 @@ var MainScreenComponent = /** @class */ (function () {
     };
     MainScreenComponent.prototype.previousPage = function () {
         var _this = this;
-        this.service.getUsers(this.currentUser - 30).toPromise().then(function (response) {
+        this.service.getUsers(this.userList.length - this.currentUser).toPromise().then(function (response) {
             _this.userList = response.data;
             _this.currentUser = _this.userList[_this.userList.length - 1].id;
         }, function (err) {
@@ -272,7 +272,7 @@ var MainScreenComponent = /** @class */ (function () {
     };
     MainScreenComponent.prototype.nextPage = function () {
         var _this = this;
-        this.service.getUsers(this.currentUser + 30).toPromise().then(function (response) {
+        this.service.getUsers(this.currentUser).toPromise().then(function (response) {
             _this.userList = response.data;
             _this.currentUser = _this.userList[_this.userList.length - 1].id;
         }, function (err) {
