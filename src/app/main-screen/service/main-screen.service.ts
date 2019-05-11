@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 export interface User {
   login: string;
@@ -19,7 +19,7 @@ export interface User {
   repos_url: string;
   events_url: string;
   received_events_url: string;
-  type: "User",
+  type: 'User';
   site_admin: boolean;
 }
 
@@ -32,15 +32,15 @@ export class MainScreenService {
   }
 
   getUsers(since: number): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/users?since=${since}`)
+    return this.http.get(`https://shawnandpartners-test.herokuapp.com/api/users?since=${since}`);
   }
 
   getUserDetails(username: string): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/users/${username}/details`);
+    return this.http.get(`https://shawnandpartners-test.herokuapp.com/api/users/${username}/details`);
   }
 
   getUserRepos(username: string): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/users/${username}/repos`);
+    return this.http.get(`https://shawnandpartners-test.herokuapp.com/api/users/${username}/repos`);
   }
 
 }
