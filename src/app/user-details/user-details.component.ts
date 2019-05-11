@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MainScreenService, User} from "../main-screen/service/main-screen.service";
-import {ActivatedRoute} from "@angular/router";
+import {MainScreenService, User} from '../main-screen/service/main-screen.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'sp-user-details',
@@ -21,7 +21,7 @@ export class UserDetailsComponent implements OnInit {
       (response) => {
         this.user = response.data;
         this.service.getUserRepos(username).toPromise().then(
-          (response) => this.userRepos = response,
+          (res) => this.userRepos = res,
           () => {
             alert('Whoops! Couldn\'t load the user repositories.');
           }
