@@ -6,11 +6,11 @@
 <main>
   <div class="table-container">
     <div style="display: flex; width: 100%; margin-bottom: 1rem; justify-content: center">
-      <div (click)="currentUser > 30 ? previousPage() : $event.preventDefault()" [class.active]="true" class="pag-btn">
+      <div (click)="currentUser > 30 ? previousPage() : $event.preventDefault()" class="pag-btn active">
         Previous
       </div>
-      <div (click)="!(userList.length < 30) ? nextPage(): $event.preventDefault()" [class.active]="true"
-           class="pag-btn">Next
+      <div (click)="!(userList.length < 30) ? nextPage(): $event.preventDefault()"
+           class="pag-btn active">Next
       </div>
     </div>
     <br>
