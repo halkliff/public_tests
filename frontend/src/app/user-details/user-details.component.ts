@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {MainScreenService, User} from "../main-screen/service/main-screen.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'sp-user-details',
@@ -7,10 +9,29 @@ import {Component, OnInit} from '@angular/core';
 })
 export class UserDetailsComponent implements OnInit {
 
-  constructor() {
+  user: User;
+  userRepos: any[] = [];
+
+  constructor(protected service: MainScreenService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
+    const username = this.activatedRoute.snapshot.paramMap.get('username');
+    this.service.getUserDetails(username).toPromise().then(
+      (response) => {
+        this.user = response.data;
+        this.service.getUserRepos(username).toPromise().then(
+          (response) => this.userRepos = response,
+          () => {
+            alert('Whoops! Couldn\'t load the user repositories.');
+          }
+        );
+      },
+      () => {
+        alert('Whoops! Something went wrong. Let\'s reload the page');
+        window.location.reload();
+      }
+    );
   }
 
 }
