@@ -21,7 +21,9 @@ export class UserDetailsComponent implements OnInit {
       (response) => {
         this.user = response.data;
         this.service.getUserRepos(username).toPromise().then(
-          (res) => this.userRepos = res,
+          (res) => {
+            this.userRepos = res.data;
+          },
           () => {
             alert('Whoops! Couldn\'t load the user repositories.');
           }
