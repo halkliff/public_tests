@@ -7,7 +7,7 @@
             </v-card-title>
             <v-card-text>
                 <p v-if="home">
-                    <span v-if="userData !== undefined">
+                    <span v-if="userData !== null">
                         Borrowed by: {{userData.name}}
                     </span>
                     <span v-else>
@@ -37,7 +37,7 @@ export default class BookComponent extends Vue {
     @prop() bookData!: IBookData;
     @prop({type: Boolean}) home!: boolean;
 
-    protected userData: IUserData | undefined;
+    protected userData: IUserData | null = null;
 
     mounted() {
         if (this.bookData.loan !== undefined) {
