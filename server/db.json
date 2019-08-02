@@ -1,0 +1,99 @@
+{
+    "users": [
+        {
+            "id": 13618055,
+            "name": "Salvador Souza",
+            "email": "Lucas_Santos@hotmail.com",
+            "password": "WiKnWDhHNrkOWYj"
+        },
+        {
+            "id": 62945674,
+            "name": "Marcela Braga",
+            "email": "gor_Martins@gmail.com",
+            "password": "n_XbowedO6BTk3k"
+        },
+        {
+            "id": 27940466,
+            "name": "Heitor Silva",
+            "email": "Marcos.Costa32@live.com",
+            "password": "jE9EaIe7ZwzdCua"
+        }
+    ],
+    "books": [
+        {
+            "id": 89132676,
+            "name": "Introdução à Programação com Python",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/51qoFdDmLqL._SX360_BO1,204,203,200_.jpg",
+            "userId": 13618055,
+            "loan": {
+                "userId": 27940466,
+                "date": "2019-06-20"
+            }
+        },
+        {
+            "id": 23839918,
+            "name": "Programação profissional em HTML 5",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/51ppKPhP4HL._SR600,315_SCLZZZZZZZ_.jpg",
+            "userId": 27940466,
+            "loan": false
+        },
+        {
+            "id": 26157405,
+            "name": "JavaScript - Aprenda a Programar",
+            "image": "http://www.editoraviena.com.br/%2Fimagens_02%2Fprodutos%2F2018-10-01_01-51-37-JavaScript.jpg",
+            "userId": 13618055,
+            "loan": {
+                "userId": 62945674,
+                "date": "2019-07-27"
+            }
+        },
+        {
+            "id": 70618749,
+            "name": "O poder do hábito",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/51VFNJGBvqL._SX346_BO1,204,203,200_.jpg",
+            "userId": 62945674,
+            "loan": false
+        },
+        {
+            "id": 37035418,
+            "name": "Empreendedorismo e jovens empreendedores",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/416X75jsQWL._SY346_.jpg",
+            "userId": 62945674,
+            "loan":false
+        },
+        {
+            "id": 85849640,
+            "name": "Desconstruindo o SEO - A Pirâmide Invertida",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/41KyfqjZHLL.jpg",
+            "userId": 13618055,
+            "loan": {
+                "userId": 62945674,
+                "date": "2019-03-19"
+            }
+        },
+        {
+            "id": 25173189,
+            "name": "Marketing Digital na Prática: Como criar do zero uma estratégia de marketing digital para promover negócios ou produtos",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/41t3nagAjoL._SX341_BO1,204,203,200_.jpg",
+            "userId": 13618055,
+            "loan": false
+        },
+        {
+            "id": 35761134,
+            "name": "Vue: Step-By-Step Guide To Mastering Vue.js From Beginner To Advanced",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/418NnKr2KKL.jpg",
+            "userId": 27940466,
+            "loan": {
+                "userId": 62945674,
+                "date": "2019-06-03"
+            }
+        },
+        {
+            "id": 33828773,
+            "name": "Por que fazemos o que fazemos?",
+            "image": "https://images-na.ssl-images-amazon.com/images/I/51xH0mWSeGL._SX331_BO1,204,203,200_.jpg",
+            "userId": 46381003,
+            "loan": false
+        }
+    ]
+}
