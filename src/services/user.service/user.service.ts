@@ -65,8 +65,8 @@ export default class UserService {
         });
     }
 
-    static async getUser(id: number): Promise<AxiosResponse<IUserData>> {
-        return await axios.get<IUserData>(`${BASE_URL}/users/${id}`);
+    static async getUser(id: number): Promise<IUserData> {
+        return (await axios.get<IUserData>(`${BASE_URL}/users/${id}`)).data;
     }
 
     static async addUser(user: IUserData): Promise<void> {

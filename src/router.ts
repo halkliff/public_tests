@@ -11,7 +11,6 @@ Vue.use(Router);
 const routes: RouteConfig[] = [
     {
         path: '/',
-        name: 'main',
         component: Main,
         children: [
             {
@@ -22,15 +21,17 @@ const routes: RouteConfig[] = [
             {
                 path: '/books-available',
                 name: 'booksAvailable',
-                component: BooksAvailable
+                component: BooksAvailable,
+                // children: [
+                //     {
+                //         path: '/view-book/:id',
+                //         name: 'viewBook',
+                //         component: () => import(
+                //             /*webpackChunkName: "viewBook"*/ './views/Main/ViewBook/ViewBook.vue'
+                //             )
+                //     }
+                // ]
             },
-            {
-                path: '/view-book/:id',
-                name: 'viewBook',
-                component: () => import(
-                    /*webpackChunkName: "viewBook"*/ './views/Main/ViewBook/ViewBook.vue'
-                    )
-            }
         ]
     },
     {
