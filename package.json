@@ -2,21 +2,51 @@
   "name": "vizir_show-me-the-code",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@types/jest": "24.0.17",
-    "@types/node": "12.7.1",
-    "@types/react": "16.9.1",
-    "@types/react-dom": "16.8.5",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-scripts": "3.1.0",
-    "typescript": "3.5.3"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halkliff/vizir_show-me-the-code.git"
   },
+  "author": "Werberth Lins Rocha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/halkliff/vizir_show-me-the-code/issues"
+  },
+  "homepage": "https://github.com/halkliff/vizir_show-me-the-code#readme",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.3.2",
+    "@material-ui/icons": "^4.2.1",
+    "node-sass": "^4.12.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.0",
+    "typeface-nunito": "^0.0.72",
+    "typeface-roboto": "^0.0.75",
+    "typescript": "3.5.3"
+  },
+  "devDependencies": {
+    "@types/jest": "24.0.17",
+    "@types/node": "12.7.1",
+    "@types/react": "16.9.1",
+    "@types/react-dom": "16.8.5",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.15.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "prettier": "^1.18.2"
   },
   "eslintConfig": {
     "extends": "react-app"
