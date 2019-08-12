@@ -1,4 +1,5 @@
 import React from "react";
+import Main from "./pages/Main";
 import { Route, BrowserRouter, RouteProps } from "react-router-dom";
 
 /* const Routes: React.FunctionComponent = (
@@ -14,7 +15,7 @@ import { Route, BrowserRouter, RouteProps } from "react-router-dom";
 export const routes: RouteProps[] = [
   {
     path: "/",
-    component: undefined
+    component: Main
   }
 ];
 

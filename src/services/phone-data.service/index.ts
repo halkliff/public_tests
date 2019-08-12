@@ -1,4 +1,5 @@
-export * from "./phone-data.types";
-import { default as PhoneDataService } from "./phone-data.service";
+import PhoneDataService from './phone-data.service';
+
+export * from './phone-data.types';
 
 export default PhoneDataService;
