@@ -1,6 +1,14 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { PhoneTransactionType } from 'store/ducks/phoneData';
-import { Select, FormControl, MenuItem } from '@material-ui/core';
+import {
+  Select,
+  FormControl,
+  MenuItem,
+  Button,
+  OutlinedInput,
+  InputLabel
+} from '@material-ui/core';
+import { Search } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { GlobalState } from 'store/ducks';
@@ -11,7 +19,7 @@ const selectorStyles = makeStyles({
     flex: 1,
     justifyContent: 'center',
     display: 'grid',
-    gridTemplateColumns: '2fr 1fr 1fr 2fr',
+    gridTemplateColumns: '4fr 2fr 2fr 1fr 4fr',
     gridColumnGap: '1.5rem'
   },
   selector1: {
@@ -19,6 +27,10 @@ const selectorStyles = makeStyles({
   },
   selector2: {
     gridColumn: '3/4'
+  },
+  button: {
+    gridColumn: '4/5',
+    margin: '.5rem 0'
   }
 });
 
@@ -35,7 +47,7 @@ export function mapOriginsFromDestiny(
 
   transactions.forEach(value => {
     if (value.phoneData.destino === destiny)
-      mappedOrigins.push(value.phoneData.destino);
+      mappedOrigins.push(value.phoneData.origem);
   });
 
   return mappedOrigins;
@@ -54,18 +66,15 @@ export function mapDestiniesFromOrigin(
 
   transactions.forEach(value => {
     if (value.phoneData.origem === origin)
-      mappedDestinies.push(value.phoneData.origem);
+      mappedDestinies.push(value.phoneData.destino);
   });
 
   return mappedDestinies;
 }
 
 interface State {
-  initLoaded: boolean;
   selectedOrigin: string | null;
   selectedDestiny: string | null;
-  existingOrigins: string[];
-  existingDestinies: string[];
 }
 
 const Selector: FunctionComponent = () => {
@@ -77,65 +86,82 @@ const Selector: FunctionComponent = () => {
   >(state => state.phoneData.transactions);
 
   const [state, setState] = useState<State>({
-    initLoaded: false,
     selectedOrigin: null,
-    selectedDestiny: null,
-    existingOrigins: [],
-    existingDestinies: []
+    selectedDestiny: null
   });
-
-  useEffect(() => {
-    setState(value => ({
-      ...value,
-      existingOrigins: Array.from(
-        new Set(phoneData.map(v => v.phoneData.origem))
-      ),
-      existingDestinies: Array.from(
-        new Set(phoneData.map(v => v.phoneData.destino))
-      ),
-      initLoaded: true
-    }));
-    return () => {};
-  }, [phoneData, state.initLoaded]);
 
   function selectOrigin(
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) {
+    const selectedOrigin = event.target.value as string;
     setState(value => ({
       ...value,
-      selectedOrigin: event.target.value as string
+      selectedOrigin: selectedOrigin.length > 0 ? selectedOrigin : null
     }));
   }
 
   function selectDestiny(
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) {
+    const selectedDestiny = event.target.value as string;
     setState(value => ({
       ...value,
-      selectedDestiny: event.target.value as string
+      selectedDestiny: selectedDestiny.length > 0 ? selectedDestiny : null
     }));
   }
 
   return (
     <section className={styles.section}>
-      <FormControl className={styles.selector1}>
-        <Select onChange={selectOrigin} value="">
-          {state.existingOrigins.map((value, index) => (
+      <FormControl className={styles.selector1} variant="outlined">
+        <InputLabel htmlFor="input-origem">Origem</InputLabel>
+        <Select
+          onChange={selectOrigin}
+          value={state.selectedOrigin || ''}
+          input={
+            <OutlinedInput name="origem" id="input-origem" labelWidth={64} />
+          }
+        >
+          <MenuItem value="">Nenhum</MenuItem>
+          {(state.selectedDestiny != null
+            ? mapOriginsFromDestiny(phoneData, state.selectedDestiny)
+            : Array.from(new Set(phoneData.map(v => v.phoneData.origem))).sort()
+          ).map((value, index) => (
             <MenuItem key={`${value + index}`} value={value}>
               {value}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <FormControl className={styles.selector2}>
-        <Select onChange={selectDestiny} value="">
-          {state.existingDestinies.map((value, index) => (
+      <FormControl className={styles.selector2} variant="outlined">
+        <InputLabel htmlFor="input-destino">Destino</InputLabel>
+        <Select
+          onChange={selectDestiny}
+          value={state.selectedDestiny || ''}
+          input={
+            <OutlinedInput name="destino" id="input-destino" labelWidth={64} />
+          }
+        >
+          <MenuItem value="">Nenhum</MenuItem>
+          {(state.selectedOrigin != null
+            ? mapDestiniesFromOrigin(phoneData, state.selectedOrigin)
+            : Array.from(
+                new Set(phoneData.map(v => v.phoneData.destino))
+              ).sort()
+          ).map((value, index) => (
             <MenuItem key={`${value + index}`} value={value}>
               {value}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
+      <Button
+        color="secondary"
+        variant="contained"
+        className={styles.button}
+        disabled={!state.selectedOrigin || !state.selectedDestiny}
+      >
+        <Search />
+      </Button>
     </section>
   );
 };
