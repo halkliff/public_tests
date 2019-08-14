@@ -1,20 +1,26 @@
 import React, { FunctionComponent } from 'react';
-/* import { Dispatch } from 'redux';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  StateData,
-  Creators as PhoneCreators,
-  ActionPayload as PhoneActionPayload
-} from 'store/ducks/phoneData';
-import { GlobalState } from 'store/ducks'; */
+import { useSelector } from 'react-redux';
 import Selector from 'components/Selector';
 
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
+
 const Main: FunctionComponent = () => {
-  /* const phoneData = useSelector<GlobalState, StateData>(
-    state => state.phoneData
-  ); */
+  // I am really not sure why this has to be here, but if removed the application doesn't
+  // work properly so... Here it stays until I figure it out.
+  useSelector(_ => _);
+
   return (
     <>
+      <AppBar role="navigation" position="sticky">
+        <Toolbar>
+          <Typography
+            variant="h4"
+            style={{ color: 'white', fontWeight: 'bolder' }}
+          >
+            Telzir - Fale Mais
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Selector />
     </>
   );
