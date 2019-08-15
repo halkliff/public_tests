@@ -12,6 +12,7 @@ import { Search } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { GlobalState } from 'store/ducks';
+import { appPalette } from 'styles/jss';
 
 const selectorStyles = makeStyles({
   section: {
@@ -20,7 +21,10 @@ const selectorStyles = makeStyles({
     justifyContent: 'center',
     display: 'grid',
     gridTemplateColumns: '4fr 2fr 2fr 1fr 4fr',
-    gridColumnGap: '1.5rem'
+    gridColumnGap: '1.5rem',
+    '& input:focused fieldset': {
+      borderColor: appPalette.secondaryColor.main
+    }
   },
   selector1: {
     gridColumn: '2/3'

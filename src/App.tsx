@@ -19,6 +19,15 @@ const appTheme: Theme = createMuiTheme({
       default: appPalette.backgroundColor.main
     }
   },
+  overrides: {
+    MuiOutlinedInput: {
+      root: {
+        '&.Mui-focused > fieldset.MuiOutlinedInput-notchedOutline': {
+          borderColor: `${appPalette.secondaryColor.main} !important`
+        }
+      }
+    }
+  },
   typography: {
     fontFamily: 'Nunito, "Helvetica Neue", sans-serif',
     fontSize: 16,
