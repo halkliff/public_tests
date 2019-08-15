@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { PhoneTransactionType } from 'store/ducks/phoneData';
+import { PhoneTransactionType, Creators } from 'store/ducks/phoneData';
 import {
   Select,
   FormControl,
@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { GlobalState } from 'store/ducks';
 import { appPalette } from 'styles/jss';
 
@@ -89,6 +89,8 @@ const Selector: FunctionComponent = () => {
     PhoneTransactionType[]
   >(state => state.phoneData.transactions);
 
+  const dispatch = useDispatch();
+
   const [state, setState] = useState<State>({
     selectedOrigin: null,
     selectedDestiny: null
@@ -112,6 +114,16 @@ const Selector: FunctionComponent = () => {
       ...value,
       selectedDestiny: selectedDestiny.length > 0 ? selectedDestiny : null
     }));
+  }
+
+  function selectTransaction() {
+    const foundPhoneData = phoneData.find(
+      data =>
+        data.phoneData.origem === state.selectedOrigin &&
+        data.phoneData.destino === state.selectedDestiny
+    );
+    const selectedTransactionId = foundPhoneData ? foundPhoneData.id : '';
+    dispatch(Creators.select(selectedTransactionId));
   }
 
   return (
@@ -163,6 +175,7 @@ const Selector: FunctionComponent = () => {
         variant="contained"
         className={styles.button}
         disabled={!state.selectedOrigin || !state.selectedDestiny}
+        onClick={selectTransaction}
       >
         <Search />
       </Button>
