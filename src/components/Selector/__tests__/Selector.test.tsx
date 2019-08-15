@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {create, ReactTestRenderer} from 'react-test-renderer';
+import { create, ReactTestRenderer } from 'react-test-renderer';
 
 // This component is dependent of the redux store, therefore we must have the store
 // provider available for the component.
@@ -11,13 +11,12 @@ import store from 'store';
 import Selector from '../Selector';
 
 describe('Selector Component tests', () => {
-
   it('Renders the component without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
       <Provider store={store}>
         <Selector />
-      </Provider>, 
+      </Provider>,
       div
     );
     ReactDOM.unmountComponentAtNode(div);
@@ -27,7 +26,7 @@ describe('Selector Component tests', () => {
     const selector: ReactTestRenderer = create(
       <Provider store={store}>
         <Selector />
-      </Provider>,
+      </Provider>
     );
     expect(selector.toJSON()).toMatchSnapshot();
   });

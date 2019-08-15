@@ -4,16 +4,17 @@ import PhoneDataService, { PhoneData } from 'services/phone-data.service';
 
 export default function*(/* action: ActionPayload */) {
   yield put(Creators.loading());
-  const phoneData: PhoneData[] = yield PhoneDataService.fetch();
   const transactionTypes: PhoneTransactionType[] = [];
 
-  phoneData.forEach(data =>
-    transactionTypes.push({
-      id: data.id,
-      phoneData: data,
-      callTime: 0
-    })
-  );
+  yield PhoneDataService.fetch().then(phoneData => {
+    phoneData.forEach((data: PhoneData) =>
+      transactionTypes.push({
+        id: data.id,
+        phoneData: data,
+        callTime: 0
+      })
+    );
+  });
 
   yield put(Creators.addAll(transactionTypes));
   yield put(Creators.loaded());
