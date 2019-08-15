@@ -79,13 +79,19 @@ export const addAll: Reducer<
   return { ...state, transactions };
 };
 
-export const select: Reducer<StateData, ActionPayload<number>> = (
+export const select: Reducer<StateData, ActionPayload<string>> = (
   state = INITIAL_STATE,
   action
-) => ({
-  ...state,
-  selectedTransaction: state.transactions[action.payload || -1] || null
-});
+) => {
+  const selectedTransaction = state.transactions.find(
+    value => value.id === action.payload
+  );
+
+  return {
+    ...state,
+    selectedTransaction: selectedTransaction || null
+  };
+};
 
 /**
  * Handler to edit a transaction type saved in the store.
@@ -162,6 +168,7 @@ export const HANDLERS = {
   [ActionTypes.ADD]: add,
   [ActionTypes.ADD_ALL]: addAll,
   [ActionTypes.EDIT]: edit,
+  [ActionTypes.SELECT]: select,
   [ActionTypes.DELETE]: remove,
   [ActionTypes.LOADING]: loading,
   [ActionTypes.LOADING_COMPLETE]: loaded
@@ -179,6 +186,7 @@ interface CreatorsObj {
   add: (data: PhoneTransactionType) => ActionPayload;
   addAll: (data: PhoneTransactionType[]) => ActionPayload;
   edit: (data: PhoneTransactionType) => ActionPayload;
+  select: (id: string) => ActionPayload;
   remove: (id: string) => ActionPayload;
   preload: () => ActionPayload;
   loading: () => Action;
@@ -216,6 +224,15 @@ export const Creators: CREATORS_OBJ = {
   edit: data => ({
     type: ActionTypes.EDIT,
     payload: { ...data }
+  }),
+
+  /**
+   * Selects a transaction type in the store, passing the `data` param, which is of
+   * the type [PhoneTransactionType].
+   */
+  select: id => ({
+    type: ActionTypes.SELECT,
+    payload: id
   }),
 
   /**

@@ -5,6 +5,6 @@ export interface GlobalState {
   phoneData: PhoneStateData;
 }
 
-export default combineReducers({
+export default combineReducers<GlobalState>({
   phoneData
 });
