@@ -3,9 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import 'typeface-nunito';
 import { Provider } from 'react-redux';
+import numeral from 'numeral';
+import store from 'store';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import store from 'store';
+
+numeral.register('locale', 'br', {
+  delimiters: {
+    thousands: '.',
+    decimal: ','
+  },
+  abbreviations: {
+    thousand: 'Mil',
+    million: 'Mi',
+    billion: 'Bi',
+    trillion: 'Tri'
+  },
+  ordinal() {
+    return 'º';
+  },
+  currency: {
+    symbol: 'R$'
+  }
+});
+
+numeral.locale('br');
 
 ReactDOM.render(
   <Provider store={store}>

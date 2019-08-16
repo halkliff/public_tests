@@ -11,7 +11,6 @@
   position: absolute;
   width: 0.5em;
   height: 0.5em;
-  border-radius: 0.25em;
   background: transparent;
   overflow: visible;
 
@@ -22,7 +21,6 @@
 
 ::-webkit-scrollbar-thumb {
   border: none;
-  border-radius: 0.25em;
   background-color: rgba(145, 145, 145, 0.7);
 }
 
