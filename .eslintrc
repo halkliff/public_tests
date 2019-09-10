@@ -1,7 +1,7 @@
 {
   "env": {
-    "browser": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "settings": {
     "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
@@ -12,6 +12,7 @@
   "extends": [
     "eslint:recommended",
     "airbnb-base",
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
     "prettier"
