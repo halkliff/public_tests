@@ -1,0 +1,41 @@
+{
+  "name": "cacdigital-teste",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halkliff/cacdigital-teste.git"
+  },
+  "author": "Werberth Lins",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/halkliff/cacdigital-teste/issues"
+  },
+  "homepage": "https://github.com/halkliff/cacdigital-teste#readme",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "dependencies": {
+    "@types/node": "^12.7.4",
+    "cross-env": "^5.2.1",
+    "fs-extra": "^8.1.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.2.0",
+    "@typescript-eslint/parser": "^2.2.0",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2"
+  }
+}
