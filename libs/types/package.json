@@ -1,6 +1,8 @@
 {
   "name": "@cacdigital-lib/types",
   "version": "1.0.0",
+  "main": "dist/src/index.js",
+  "types": "dist/index.d.ts",
   "private": true,
   "dependencies": {
     "@types/node": "^12.7.4",
@@ -11,6 +13,7 @@
     "jest": "^24.9.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   }
 }
