@@ -10,6 +10,7 @@
   "rules": {
     "import/no-extraneous-dependencies": 0,
     "no-useless-constructor": 0,
+    "no-empty-function": 0,
     "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/no-parameter-properties": 0
   }
