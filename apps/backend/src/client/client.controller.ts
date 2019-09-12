@@ -89,11 +89,15 @@ export default class ClientController {
 
         data.document = body.document.replace(/[\D]+/g, '');
 
-        if (data.document.length !== 11 && data.document.length !== 13) {
-          response.error = `Invalid document`;
+        if (data.document.length !== 11 && data.clientType === 'fisico') {
+          response.error = `Invalid document. Documents for client type 'fisico' must have exactly 11 digits.`;
           return res.status(statusCode).jsonp(response);
         }
 
+        if (data.document.length !== 14 && data.clientType === 'juridico') {
+          response.error = `Invalid document. Documents for client type 'juridico' must have exactly 14 digits.`;
+          return res.status(statusCode).jsonp(response);
+        }
         await this.service.addClient(body);
         response = {
           ok: true,
