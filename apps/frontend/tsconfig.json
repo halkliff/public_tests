@@ -10,7 +10,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "rootDir": "src"
   },
   "include": ["src"]
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Client } from '@cacdigital-lib/types';
 import App from './App';
 
 it('renders without crashing', () => {
