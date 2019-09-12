@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import { Client } from '@cacdigital-lib/types';
+import UserAlreadyExistsError from './UserAlreadyExists.error';
+import UserNotFoundError from './UserNotFound.error';
 
 @Injectable()
 export default class ClientService {
@@ -9,7 +11,8 @@ export default class ClientService {
       id: randomStringGenerator(),
       name: 'Carlos Bonzaga da Silva',
       clientType: 'fisico',
-      document: '001.002.003-04',
+      document: '00100200304',
+      parsedDocument: '001.002.003-04',
       contacts: {
         mobileNumber: '+55 (11) 98765-4321',
       },
@@ -20,7 +23,7 @@ export default class ClientService {
    * Lists the clients in the mocked database
    * @param page The page to look for
    * @param offset how many clients will be retrieved
-   * @returns an array containing the found `Client`s. The array may be empty.
+   * @returns an array containing the found [Client]s. The array may be empty.
    */
   public async getclients(page = 0, offset = 10): Promise<Client[]> {
     return this.STATIC_DATA.slice(page * offset, page * offset + offset);
@@ -29,7 +32,7 @@ export default class ClientService {
   /**
    * Gets a single client from the mocked database
    * @param document The client's registered document
-   * @returns the `Client` if found, or `null` if not
+   * @returns the [Client] if found, or `null` if not
    */
   public async getClient(document: string): Promise<Client | null> {
     const client = this.STATIC_DATA.find(value => value.document === document);
@@ -43,33 +46,37 @@ export default class ClientService {
 
   /**
    * Adds a client to the mocked database.
-   * @param data The data of the client to be added to the database.
+   * @param data The data of the [Client] to be added to the database.
+   * @throws [UserAlreadyExistsError] case trying to add an user that already exists
    */
   public async addClient(data: Client): Promise<void> {
     const existingIndex = this.STATIC_DATA.findIndex(
       value => value.document === data.document,
     );
     if (existingIndex !== -1) {
-      this.STATIC_DATA[existingIndex] = data;
+      throw new UserAlreadyExistsError();
     } else {
-      this.STATIC_DATA.push(data);
+      this.STATIC_DATA.push({
+        id: randomStringGenerator(),
+        ...data,
+      });
     }
   }
 
   /**
    * Removes a client from the mocked database.
    * @param document The client's document to find and remove the client
-   * @returns the last updated instance of the `Client` before removal, if the client was found
+   * @returns the last updated instance of the [Client] before removal, if the client was found
    * and removed, or `false` otherwise.
    */
-  public async removeClient(document: string): Promise<Client | false> {
+  public async removeClient(document: string): Promise<Client> {
     const client = this.STATIC_DATA.find(value => value.document === document);
     if (!client) {
-      return false;
+      throw new UserNotFoundError();
     }
 
     this.STATIC_DATA = this.STATIC_DATA.filter(
-      value => value.document === document,
+      value => value.document !== document,
     );
     return client;
   }
@@ -78,7 +85,7 @@ export default class ClientService {
    * Edits a client in the mocked database.
    * @param document The client's document to find and edit the client.
    * @param data The new data of the client to replace in the database.
-   * @returns the latest `Client` instance prior to the edit, or false if the client was not
+   * @returns the latest [Client] instance prior to the edit, or false if the client was not
    * found.
    */
   public async editClient(
@@ -90,10 +97,10 @@ export default class ClientService {
     );
 
     if (clientIndex === -1) {
-      return false;
+      throw new UserNotFoundError();
     }
     const oldClientData = this.STATIC_DATA[clientIndex];
-    this.STATIC_DATA[clientIndex] = data;
+    this.STATIC_DATA[clientIndex] = { ...oldClientData, ...data };
 
     return oldClientData;
   }
