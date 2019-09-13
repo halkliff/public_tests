@@ -13,6 +13,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declaration": true,
+    "skipLibCheck": true,
     "isolatedModules": false
   },
   "exclude": ["node_modules"]
