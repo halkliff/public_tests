@@ -9,11 +9,16 @@ const appTheme: Theme = createMuiTheme({
     borderRadius: 8
   },
   palette: {
-    type: 'light',
-    primary: blueGrey,
+    type: 'dark',
+    primary: {
+      light: blueGrey[600],
+      main: blueGrey[800],
+      dark: blueGrey[900]
+    },
     secondary: deepOrange,
     background: {
-      default: '#fafff5'
+      default: grey[800],
+      paper: grey.A700
     }
   },
   typography: {
@@ -21,25 +26,25 @@ const appTheme: Theme = createMuiTheme({
     fontSize: 16,
     htmlFontSize: 16,
     h1: {
-      color: grey[900],
+      color: grey[50],
       fontWeight: 'bolder'
     },
     h2: {
-      color: grey[900],
+      color: grey[50],
       fontWeight: 'bolder'
     },
     h3: {
-      color: grey[900],
+      color: grey[100],
       fontWeight: 'bolder'
     },
     body1: {
-      color: grey[700]
+      color: grey.A700
     },
     body2: {
-      color: deepOrange[500]
+      color: deepOrange.A400
     },
     caption: {
-      color: deepOrange[500]
+      color: deepOrange.A400
     }
   }
 });
