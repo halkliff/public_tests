@@ -23,10 +23,15 @@ export default class ClientService {
    * Lists the clients in the mocked database
    * @param page The page to look for
    * @param offset how many clients will be retrieved
-   * @returns an array containing the found [Client]s. The array may be empty.
+   * @returns a set containing two informations: the first, the `number` of clients
+   * registered in the database, the second, an array containing the found [Client]s.
+   * The array may be empty.
    */
-  public async getclients(page = 0, offset = 10): Promise<Client[]> {
-    return this.STATIC_DATA.slice(page * offset, page * offset + offset);
+  public async getClients(page = 0, offset = 10): Promise<[number, Client[]]> {
+    return [
+      this.STATIC_DATA.length,
+      this.STATIC_DATA.slice(page * offset, page * offset + offset),
+    ];
   }
 
   /**

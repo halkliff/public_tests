@@ -27,9 +27,14 @@ export default class ClientController {
     @Query('offset') offset = 10,
     @Res() res: Response,
   ): Promise<Response> {
+    const [qty, data] = await this.service.getClients(
+      Number(page),
+      Number(offset),
+    );
     return res.status(200).jsonp({
       ok: true,
-      data: await this.service.getclients(Number(page), Number(offset)),
+      data,
+      qty,
     });
   }
 
