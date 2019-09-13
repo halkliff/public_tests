@@ -11,8 +11,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { Response } from 'express';
-import GenericResponse from 'src/generic-response.interface';
-import { Client } from '@cacdigital-lib/types';
+import { Client, NetworkResponse } from '@cacdigital-lib/types';
 import ClientService from './services/client/client.service';
 import UserAlreadyExistsError from './services/client/UserAlreadyExists.error';
 import UserNotFoundError from './services/client/UserNotFound.error';
@@ -43,7 +42,7 @@ export default class ClientController {
     @Param('id') document: string,
     @Res() res: Response,
   ): Promise<Response> {
-    let response: GenericResponse<Client>;
+    let response: NetworkResponse<Client>;
     let statusCode = 200;
 
     const client = await this.service.getClient(document);
@@ -68,7 +67,7 @@ export default class ClientController {
     @Body() body: Client,
     @Res() res: Response,
   ): Promise<Response> {
-    let response: GenericResponse = { ok: false };
+    let response: NetworkResponse = { ok: false };
     let statusCode = 400;
 
     if (!body) {
@@ -130,7 +129,7 @@ export default class ClientController {
     @Body() body: Client,
     @Res() res: Response,
   ): Promise<Response> {
-    let response: GenericResponse = { ok: false };
+    let response: NetworkResponse = { ok: false };
     let statusCode = 400;
 
     try {

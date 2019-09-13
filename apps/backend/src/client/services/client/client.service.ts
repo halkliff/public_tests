@@ -104,9 +104,16 @@ export default class ClientService {
     if (clientIndex === -1) {
       throw new UserNotFoundError();
     }
-    const oldClientData = this.STATIC_DATA[clientIndex];
-    this.STATIC_DATA[clientIndex] = { ...oldClientData, ...data };
 
-    return oldClientData;
+    const { id, contacts, ...rest } = data;
+
+    const { contacts: oldContacts, ...oldRest } = this.STATIC_DATA[clientIndex];
+    this.STATIC_DATA[clientIndex] = {
+      ...oldRest,
+      ...rest,
+      contacts: { ...oldContacts, ...contacts },
+    };
+
+    return { ...oldRest, contacts: oldContacts };
   }
 }

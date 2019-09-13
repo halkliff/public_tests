@@ -6,17 +6,17 @@ import {
   ArgumentsHost,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import GenericResponse from './generic-response.interface';
+import { NetworkResponse } from '@cacdigital-lib/types';
 
 @Catch(NotFoundException)
 export default class GlobalNotFoundExceptionFilter implements ExceptionFilter {
-  // eslint-disable-next-line class-methods-use-this
+  // eslint-disable-next-line
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const req = ctx.getRequest<Request>();
     const res = ctx.getResponse<Response>();
 
-    const response: GenericResponse = {
+    const response: NetworkResponse = {
       ok: false,
       msg: `The resource path '${req.path}' doesn't exist.`,
     };

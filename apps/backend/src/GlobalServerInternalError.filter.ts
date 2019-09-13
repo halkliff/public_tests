@@ -6,17 +6,17 @@ import {
   ArgumentsHost,
 } from '@nestjs/common';
 import { Response } from 'express';
-import GenericResponse from './generic-response.interface';
+import { NetworkResponse } from '@cacdigital-lib/types';
 
 @Catch(InternalServerErrorException)
 export default class GlobalServerInternalErrorFilter
   implements ExceptionFilter {
-  // eslint-disable-next-line class-methods-use-this
+  // eslint-disable-next-line
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
 
-    const response: GenericResponse = {
+    const response: NetworkResponse = {
       ok: false,
       msg: `An unexpected error occurred. Please, try again later.`,
       error: exception.message,
