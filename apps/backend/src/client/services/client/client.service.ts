@@ -3,6 +3,7 @@ import { randomStringGenerator } from '@nestjs/common/utils/random-string-genera
 import { Client } from '@cacdigital-lib/types';
 import UserAlreadyExistsError from './UserAlreadyExists.error';
 import UserNotFoundError from './UserNotFound.error';
+import InvalidEntryError from './InvalidEntry.error';
 
 @Injectable()
 export default class ClientService {
@@ -60,6 +61,30 @@ export default class ClientService {
     );
     if (existingIndex !== -1) {
       throw new UserAlreadyExistsError();
+    } else if (!data || Object.keys(data).length === 0) {
+      throw new InvalidEntryError(`Empty body`);
+    } else if (!data.clientType) {
+      throw new InvalidEntryError(
+        `Client Type must be provided, either as 'fisico' or 'juridico'`,
+      );
+    } else if (data.clientType !== 'fisico' && data.clientType !== 'juridico') {
+      throw new InvalidEntryError(`Wrong Client Type`);
+    } else if (!data.document) {
+      throw new InvalidEntryError(`A document must be provided`);
+    } else if (data.document.length !== 11 && data.clientType === 'fisico') {
+      throw new InvalidEntryError(
+        `Invalid document. Documents for client type 'fisico' must have exactly 11 digits.`,
+      );
+    } else if (data.document.length !== 14 && data.clientType === 'juridico') {
+      throw new InvalidEntryError(
+        `Invalid document. Documents for client type 'juridico' must have exactly 14 digits.`,
+      );
+    } else if (!data.name) {
+      throw new InvalidEntryError(`Client's name must be provided`);
+    } else if (!data.contacts || !data.contacts.mobileNumber) {
+      throw new InvalidEntryError(
+        `At least the mobile phone number must be provided in 'contacts' object.`,
+      );
     } else {
       this.STATIC_DATA.push({
         id: randomStringGenerator(),
@@ -95,7 +120,7 @@ export default class ClientService {
    */
   public async editClient(
     document: string,
-    data: Client,
+    data: Partial<Client>,
   ): Promise<Client | false> {
     const clientIndex = this.STATIC_DATA.findIndex(
       value => value.document === document,
@@ -103,6 +128,14 @@ export default class ClientService {
 
     if (clientIndex === -1) {
       throw new UserNotFoundError();
+    }
+
+    if (
+      data.document &&
+      data.document.length !== 11 &&
+      data.document.length !== 14
+    ) {
+      throw new InvalidEntryError(`Invalid document`);
     }
 
     const { id, contacts, ...rest } = data;
