@@ -75,7 +75,7 @@ export default class ClientController {
       const data = { ...body };
 
       data.document = body.document.replace(/[\D]+/g, '');
-      await this.service.addClient(body);
+      await this.service.addClient(data);
       response = {
         ok: true,
       };
@@ -104,11 +104,7 @@ export default class ClientController {
     let statusCode = 400;
 
     try {
-      const data = { ...body };
-
-      data.document = body.document.replace(/[\D]+/g, '');
-
-      await this.service.editClient(document, data);
+      await this.service.editClient(document, body);
 
       response = {
         ok: true,

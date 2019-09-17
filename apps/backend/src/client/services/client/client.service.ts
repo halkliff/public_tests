@@ -55,37 +55,53 @@ export default class ClientService {
    * @param data The data of the [Client] to be added to the database.
    * @throws [UserAlreadyExistsError] case trying to add an user that already exists
    */
-  public async addClient(data: Client): Promise<void> {
-    const existingIndex = this.STATIC_DATA.findIndex(
-      value => value.document === data.document,
-    );
-    if (existingIndex !== -1) {
-      throw new UserAlreadyExistsError();
-    } else if (!data || Object.keys(data).length === 0) {
+  public async addClient(clientData: Client): Promise<void> {
+    if (!clientData || Object.keys(clientData).length === 0) {
       throw new InvalidEntryError(`Empty body`);
-    } else if (!data.clientType) {
+    } else if (!clientData.clientType) {
       throw new InvalidEntryError(
         `Client Type must be provided, either as 'fisico' or 'juridico'`,
       );
-    } else if (data.clientType !== 'fisico' && data.clientType !== 'juridico') {
+    } else if (
+      clientData.clientType !== 'fisico' &&
+      clientData.clientType !== 'juridico'
+    ) {
       throw new InvalidEntryError(`Wrong Client Type`);
-    } else if (!data.document) {
+    } else if (!clientData.document) {
       throw new InvalidEntryError(`A document must be provided`);
-    } else if (data.document.length !== 11 && data.clientType === 'fisico') {
+    } else if (
+      clientData.document.length !== 11 &&
+      clientData.clientType === 'fisico'
+    ) {
       throw new InvalidEntryError(
         `Invalid document. Documents for client type 'fisico' must have exactly 11 digits.`,
       );
-    } else if (data.document.length !== 14 && data.clientType === 'juridico') {
+    } else if (
+      clientData.document.length !== 14 &&
+      clientData.clientType === 'juridico'
+    ) {
       throw new InvalidEntryError(
         `Invalid document. Documents for client type 'juridico' must have exactly 14 digits.`,
       );
-    } else if (!data.name) {
+    } else if (!clientData.name) {
       throw new InvalidEntryError(`Client's name must be provided`);
-    } else if (!data.contacts || !data.contacts.mobileNumber) {
+    } else if (!clientData.contacts || !clientData.contacts.mobileNumber) {
       throw new InvalidEntryError(
         `At least the mobile phone number must be provided in 'contacts' object.`,
       );
     } else {
+      const data = { ...clientData };
+
+      data.document = clientData.document.replace(/[\D]+/g, '');
+
+      const existingIndex = this.STATIC_DATA.findIndex(
+        value => value.document === data.document,
+      );
+
+      if (existingIndex !== -1) {
+        throw new UserAlreadyExistsError();
+      }
+
       this.STATIC_DATA.push({
         id: randomStringGenerator(),
         ...data,
@@ -120,7 +136,7 @@ export default class ClientService {
    */
   public async editClient(
     document: string,
-    data: Partial<Client>,
+    clientData: Partial<Client>,
   ): Promise<Client | false> {
     const clientIndex = this.STATIC_DATA.findIndex(
       value => value.document === document,
@@ -130,12 +146,17 @@ export default class ClientService {
       throw new UserNotFoundError();
     }
 
-    if (
-      data.document &&
-      data.document.length !== 11 &&
-      data.document.length !== 14
-    ) {
-      throw new InvalidEntryError(`Invalid document`);
+    const data = { ...clientData };
+
+    if (clientData.document) {
+      if (
+        clientData.document.length !== 11 &&
+        clientData.document.length !== 14
+      ) {
+        throw new InvalidEntryError(`Invalid document`);
+      } else {
+        data.document = clientData.document.replace(/[\D]+/g, '');
+      }
     }
 
     const { id, contacts, ...rest } = data;
