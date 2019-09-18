@@ -8,10 +8,6 @@ import {
   IconButton,
   Snackbar,
   Button,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
   LinearProgress,
   Dialog,
   Slide
@@ -21,18 +17,16 @@ import { grey } from '@material-ui/core/colors';
 import { createStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 import Table, { Query, QueryResult } from 'material-table';
-import { Client, Contacts } from '@cacdigital-lib/types';
+import { Client } from '@cacdigital-lib/types';
 import { Close } from '@material-ui/icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { throttle } from 'throttle-debounce';
 import ClientService from '../../services/client';
 import docParser from '../../utils/docParser';
 import { GlobalState } from '../../store/ducks';
 import { StateData as ClientsState, Creators } from '../../store/ducks/client';
 import PageBody from '../../components/PageBody';
 import BodySection from '../../components/BodySection';
-import FormLabel from '../../components/FormLabel';
-import FormGridSection from '../../components/FormGridSection';
+import CreateUserForm from '../../components/CreateUserForm';
 
 const mainStyles = makeStyles(theme =>
   createStyles({
@@ -132,36 +126,7 @@ const Main: FunctionComponent = () => {
     }
   };
 
-  const [editUser, setEditUser] = useState<Partial<Client>>({});
-
-  const [save, setSave] = useState({
-    isSaving: false,
-    hasError: false,
-    error: ''
-  });
-
   const [showSaved, setShowSaved] = useState(false);
-
-  const handleFormChange = (key: keyof Client, subKey?: keyof Contacts) =>
-    throttle(
-      150,
-      ($ev: React.ChangeEvent<HTMLInputElement>) =>
-        setEditUser(data => ({
-          ...data,
-          [key]:
-          // eslint-disable-next-line no-nested-ternary
-            key === 'contacts'
-              ? {
-                  ...data.contacts,
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                  [subKey!]: $ev.target.value
-                }
-              : key === 'document'
-              ? docParser($ev.target.value)
-              : $ev.target.value
-        })),
-      true
-    );
 
   const handleErrorClose = () => {
     setError(data => ({ ...data, hasError: false, msg: '' }));
@@ -169,7 +134,6 @@ const Main: FunctionComponent = () => {
 
   const handleRetry = () => {
     if (tableRef.current) {
-      console.log(tableRef.current);
       setError(data => ({ ...data, hasError: false, msg: '' }));
       tableRef.current.onQueryChange();
     }
@@ -177,37 +141,6 @@ const Main: FunctionComponent = () => {
 
   const handleViewerClose = () => {
     setEditor(data => ({ ...data, showing: false, isEditing: true }));
-  };
-
-  const handleSave = async () => {
-    setEditor(data => ({ ...data, isEditing: false }));
-    setSave(data => ({ ...data, isSaving: true, hasError: false }));
-
-    try {
-      await service.addClient(editUser);
-      dispatch(
-        Creators.add((await service.getClient(
-          (editUser.document as string).replace(/(\D)+/g, '')
-        )).data as Client)
-      );
-      setShowSaved(true);
-      setSave(data => ({ ...data, isSaving: false }));
-      setEditUser({});
-      setEditor(data => ({ ...data, showing: false }));
-      handleRetry();
-    } catch (err) {
-      let errorMsg: string;
-      if (err instanceof Error) {
-        errorMsg = err.message;
-      } else errorMsg = err;
-
-      setSave(data => ({
-        ...data,
-        isSaving: false,
-        hasError: true,
-        error: errorMsg
-      }));
-    }
   };
 
   return (
@@ -332,125 +265,13 @@ const Main: FunctionComponent = () => {
         onClose={handleViewerClose}
         TransitionComponent={Transition}
       >
-        <AppBar position="fixed">
-          <Toolbar>
-            <IconButton onClick={handleViewerClose}>
-              <Close />
-            </IconButton>
-            <Typography className={styles.title}>Novo</Typography>
-            <Button
-              onClick={handleSave}
-              disabled={
-                !editor.isEditing ||
-                !editUser.name ||
-                !editUser.clientType ||
-                !editUser.contacts ||
-                !editUser.contacts.mobileNumber ||
-                !editUser.document
-              }
-              color="secondary"
-              variant="contained"
-              className={styles.appBarAction}
-            >
-              Salvar
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <PageBody fixedAppBar theme={theme}>
-          <BodySection>
-            <form noValidate autoComplete="on">
-              <FormGridSection>
-                <FormControl style={{ gridColumn: '1/5' }}>
-                  <FormLabel>
-                    Nome
-                    <TextField
-                      color="secondary"
-                      disabled={!editor.isEditing}
-                      onChange={handleFormChange('name')}
-                      value={editUser.name || ''}
-                    />
-                  </FormLabel>
-                </FormControl>
-                <FormControl style={{ gridColumn: '6/8' }}>
-                  <FormLabel>
-                    Celular
-                    <TextField
-                      color="secondary"
-                      disabled={!editor.isEditing}
-                      onChange={handleFormChange('contacts', 'mobileNumber')}
-                      value={
-                        (editUser.contacts && editUser.contacts.mobileNumber) ||
-                        ''
-                      }
-                    />
-                  </FormLabel>
-                </FormControl>
-              </FormGridSection>
-              <FormGridSection>
-                <FormControl style={{ gridColumn: '1/3' }}>
-                  <FormLabel>
-                    Tipo de Cliente
-                    <Select
-                      disabled={!editor.isEditing}
-                      value={editUser.clientType || ''}
-                      onChange={ev =>
-                        setEditUser(data => ({
-                          ...data,
-                          clientType: ev.target.value as 'fisico' | 'juridico'
-                        }))
-                      }
-                    >
-                      <MenuItem value="juridico">Jurídico</MenuItem>
-                      <MenuItem value="fisico">Físico</MenuItem>
-                    </Select>
-                  </FormLabel>
-                </FormControl>
-                <FormLabel style={{ gridColumn: '4/6' }}>
-                  Documento
-                  <br />
-                  <TextField
-                    color="secondary"
-                    disabled={!editor.isEditing}
-                    onChange={handleFormChange('document')}
-                    value={
-                      (editUser.document && docParser(editUser.document)) || ''
-                    }
-                  />
-                </FormLabel>
-              </FormGridSection>
-            </form>
-          </BodySection>
-        </PageBody>
+        <CreateUserForm
+          closeAction={handleViewerClose}
+          reload={handleRetry}
+          onSaveSuccess={() => setShowSaved(true)}
+          styles={styles}
+        />
       </Dialog>
-
-      <Snackbar
-        className={styles.snackBar}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center'
-        }}
-        open={save.hasError}
-        onClose={() => setSave(data => ({ ...data, hasError: false }))}
-        message={<Typography>{save.error}</Typography>}
-        action={[
-          <Button
-            key="retry"
-            color="secondary"
-            size="small"
-            onClick={handleSave}
-          >
-            Tentar novamente
-          </Button>,
-          <IconButton
-            key="close"
-            aria-label="close"
-            color="inherit"
-            onClick={() => setSave(data => ({ ...data, hasError: false }))}
-          >
-            <Close />
-          </IconButton>
-        ]}
-      />
       <Snackbar
         className={styles.snackBar}
         anchorOrigin={{
