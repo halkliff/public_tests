@@ -21,3 +21,11 @@ rode o comando abaixo para servir o projeto: <br>
 `$ yarn start`
 
 Isto fará com que a aplicação rode no localhost. A aplicação será servida em [http://localhost/](http://localhost/)
+
+## Executando testes
+Para testar, mude o diretório para uma das aplicações:<br>
+`$ cd apps/backend` OU<br>
+`$ cd apps/frontend`
+
+e rode o seguinte comando:<br>
+`$ yarn test`
