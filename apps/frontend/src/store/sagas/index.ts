@@ -1,5 +1,7 @@
-import { takeEvery } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
+import client from './client';
+import { ActionTypes } from '../ducks/client';
 
 export default function*() {
-  yield takeEvery({ take: () => {} }, () => {});
+  yield takeLatest(ActionTypes.PRELOAD, client);
 }

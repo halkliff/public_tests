@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import client, { StateData as ClientState } from './client';
 
 export interface GlobalState {
-  [key: string]: any;
+  client: ClientState;
 }
 
-export default combineReducers<GlobalState>({});
+export default combineReducers<GlobalState>({ client });
