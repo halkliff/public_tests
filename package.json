@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/halkliff/cacdigital-teste.git"
+    "url": "git+https://github.com/halkliff/acruxx-teste.git"
   },
   "author": "Werberth Lins",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/halkliff/cacdigital-teste/issues"
+    "url": "https://github.com/halkliff/acruxx-teste/issues"
   },
-  "homepage": "https://github.com/halkliff/cacdigital-teste#readme",
+  "homepage": "https://github.com/halkliff/acruxx-teste#readme",
   "private": true,
   "workspaces": [
     "apps/*",
