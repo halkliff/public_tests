@@ -3,6 +3,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { Theme, createMuiTheme } from '@material-ui/core/styles';
 import { deepOrange, blueGrey, grey } from '@material-ui/core/colors';
 import AppRouter from './routes';
+import 'typeface-montserrat';
 
 const appTheme: Theme = createMuiTheme({
   shape: {
@@ -22,7 +23,7 @@ const appTheme: Theme = createMuiTheme({
     }
   },
   typography: {
-    fontFamily: 'Nunito, "Helvetica Neue", sans-serif',
+    fontFamily: 'Montserrat, "Helvetica Neue", sans-serif',
     fontSize: 16,
     htmlFontSize: 16,
     h1: {
