@@ -34,22 +34,23 @@ export default class ClientService {
   }
 
   public async getClient(document: string): Promise<NetworkResponse<Client>> {
-    const client = await this.api.get<NetworkResponse<Client>>(`/${document}`);
+    try {
+      const client = await this.api.get<NetworkResponse<Client>>(
+        `/clients/${document}`
+      );
 
-    if (!client.data.ok) {
-      return Promise.reject(client.data.error);
+      return client.data;
+    } catch (err) {
+      throw err.response.data.error;
     }
-
-    return client.data;
   }
 
   public async addClient(data: Partial<Client>): Promise<boolean> {
-    const serverReturn = await this.api.post<NetworkResponse>('/clients', data);
-    if (!serverReturn.data.ok) {
-      return Promise.reject(serverReturn.data.error);
+    try {
+      return (await this.api.post<NetworkResponse>('/clients', data)).data.ok;
+    } catch (err) {
+      throw err.response.data.error;
     }
-
-    return serverReturn.data.ok;
   }
 
   public async editClient(
@@ -69,14 +70,13 @@ export default class ClientService {
   }
 
   public async removeClient(document: string): Promise<boolean> {
-    const serverReturn = await this.api.delete<NetworkResponse>(
-      `/clients/${document}`
-    );
-
-    if (!serverReturn.data.ok) {
-      Promise.reject(serverReturn.data.error);
+    try {
+      const serverReturn = await this.api.delete<NetworkResponse>(
+        `/clients/${document}`
+      );
+      return serverReturn.data.ok;
+    } catch (err) {
+      throw err.response.data.error;
     }
-
-    return serverReturn.data.ok;
   }
 }

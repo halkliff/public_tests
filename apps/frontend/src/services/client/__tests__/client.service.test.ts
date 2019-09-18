@@ -10,9 +10,7 @@ describe('ClientService methods tests', () => {
 
   describe('getClients tests', () => {
     it(`Shouldn't throw any errors and be resolved`, async () => {
-      expect(async () => {
-        await service.getClients();
-      }).not.toThrow();
+      await expect(service.getClients()).resolves.toHaveProperty('data');
     });
 
     it('Should return a list of clients, a quantity, and be ok', async () => {
@@ -34,18 +32,16 @@ describe('ClientService methods tests', () => {
           email: 'abimael035@mail.com'
         }
       };
-      expect(async () => {
-        await service.addClient(clientData);
-      }).not.toThrow();
+      await expect(service.addClient(clientData)).resolves.toHaveProperty('ok');
     });
 
     it(`Should throw an error when trying to create a Client with missing data`, async () => {
-      expect(async () => {
-        await service.addClient({
+      await expect(
+        service.addClient({
           document: '987.654.321-00',
           clientType: 'fisico'
-        });
-      }).toThrow();
+        })
+      ).rejects.toBeTruthy();
     });
 
     it(`Shouldn't allow the creation of a client when missing the clientType`, async () => {
@@ -57,9 +53,9 @@ describe('ClientService methods tests', () => {
           email: 'abimael035@mail.com'
         }
       };
-      expect(async () => {
-        await service.addClient(clientData as Partial<Client>);
-      }).not.toThrow();
+      return expect(
+        service.addClient(clientData as Partial<Client>)
+      ).rejects.toBeTruthy();
     });
 
     it(`Shouldn't allow the creation of a client when missing the name`, async () => {
@@ -71,9 +67,9 @@ describe('ClientService methods tests', () => {
           email: 'abimael035@mail.com'
         }
       };
-      expect(async () => {
-        await service.addClient(clientData as Partial<Client>);
-      }).not.toThrow();
+      return expect(
+        service.addClient(clientData as Partial<Client>)
+      ).rejects.toBeTruthy();
     });
 
     it(`Shouldn't allow the creation of a client when missing the document`, async () => {
@@ -85,9 +81,9 @@ describe('ClientService methods tests', () => {
           email: 'abimael035@mail.com'
         }
       };
-      expect(async () => {
-        await service.addClient(clientData as Partial<Client>);
-      }).not.toThrow();
+      return expect(
+        service.addClient(clientData as Partial<Client>)
+      ).rejects.toBeTruthy();
     });
 
     it(`Shouldn't allow the creation of a client when missing the required mobileNumber`, async () => {
@@ -99,17 +95,17 @@ describe('ClientService methods tests', () => {
           email: 'abimael035@mail.com'
         }
       };
-      expect(async () => {
-        await service.addClient(clientData as Partial<Client>);
-      }).not.toThrow();
+      return expect(
+        service.addClient(clientData as Partial<Client>)
+      ).rejects.toBeTruthy();
     });
   });
 
   describe('getClient tests', () => {
     it(`Shouldn't throw any errors and be resolved`, async () => {
-      expect(async () => {
-        await service.getClient('12345678910');
-      }).not.toThrow();
+      await expect(service.getClient('12345678910')).resolves.toHaveProperty(
+        'data'
+      );
     });
 
     it('Should return a list of clients, a quantity, and be ok', async () => {
@@ -127,15 +123,13 @@ describe('ClientService methods tests', () => {
         document: '01.002.003/0004-05'
       };
 
-      expect(async () => {
-        await service.editClient('12345678910', clientData);
-      }).not.toThrow();
+      await expect(
+        service.editClient('12345678910', clientData)
+      ).resolves.toBeTruthy();
     });
 
-    it(`Should throw an error when trying to edit a client that doesn't exist.`, () => {
-      expect(async () => {
-        await service.editClient('00000000000', {});
-      }).toThrow();
+    it(`Should throw an error when trying to edit a client that doesn't exist.`, async () => {
+      return expect(service.editClient('00000000000', {})).rejects.toBeTruthy();
     });
   });
 
@@ -152,15 +146,11 @@ describe('ClientService methods tests', () => {
       };
       await service.addClient(clientData);
 
-      expect(async () => {
-        await service.removeClient('55566677788');
-      }).not.toThrow();
+      await expect(service.removeClient('55566677788')).resolves.toBeTruthy();
     });
 
-    it(`Should throw an error when trying to remove a client that doesn't exist.`, () => {
-      expect(async () => {
-        await service.removeClient('00000000000');
-      }).toThrow();
+    it(`Should throw an error when trying to remove a client that doesn't exist.`, async () => {
+      return expect(service.removeClient('00000000000')).rejects.toBeTruthy();
     });
   });
 });
