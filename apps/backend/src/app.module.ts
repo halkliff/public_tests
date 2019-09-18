@@ -9,7 +9,7 @@ import ClientModule from './client/client.module';
   imports: [
     ClientModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
+      rootPath: join(__dirname, '..', 'public'),
     }),
   ],
   controllers: [AppController],
