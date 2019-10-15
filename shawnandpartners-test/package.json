@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "node www/serve.js",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "doc": "jsdoc .",
+    "lint": "eslint \"./**/*.js\""
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "ejs": "^2.6.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "node-sass-middleware": "^0.11.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "jest": "^24.8.0"
+  },
+  "keywords": [],
+  "author": "Werberth Lins",
+  "license": "ISC"
+}
